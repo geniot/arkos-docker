@@ -14,8 +14,10 @@ RUN apt-get install -y --no-install-recommends  \
     binutils-common  \
     binutils  \
     libsdl-image1.2  \
+    libsdl-image1.2-dev \
     libsdl1.2debian  \
     libsdl2-2.0-0  \
+    libsdl2-image-dev \
     libsdl2-dev  \
     libsdl2-mixer-2.0-0  \
     libsdl2-mixer-dev  \
