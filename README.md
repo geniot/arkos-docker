@@ -11,6 +11,10 @@ $ docker build -f Dockerfile -t arkos-sdk .
 $ docker run -it --volume=$(pwd):/work/ --workdir=/work/ --rm arkos-sdk
 root@920e9eb0a553:/work# # Do stuff here
 ```
+For my golang projects:
+```bash
+docker run -d --name arkos-sdk -c 1024 -it --volume=/home/vitaly/GolandProjects/:/work/ --workdir=/work/
+```
 
 On x86, you may need to install qemu-user-static to run the image.
 
