@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends  \
     wget \
+    curl \
     build-essential \
     ca-certificates \
     binutils-aarch64-linux-gnu  \
@@ -30,11 +31,39 @@ RUN apt-get install -y --no-install-recommends  \
     tar  \
     zip
 
+RUN apt-get update
+
+# Download and build SDL2
+RUN wget https://github.com/trimui/toolchain_sdk_smartpro/releases/download/20231018/SDL2-2.26.1.GE8300.tgz && \
+    tar -xzf SDL2-2.26.1.GE8300.tgz -C /tmp && \
+    cd /tmp/SDL2-2.26.1 && \
+    ./configure --host=aarch64-linux-gnu \
+                --prefix=/usr \
+                --disable-video-wayland \
+                --disable-pulseaudio \
+                --with-sysroot=${SYSROOT} && \
+    make && \
+    make install && \
+    rm -rf /tmp/SDL2-2.26.1 SDL2-2.26.1.GE8300.tgz
+
+
 # Install Go 1.24.2
 RUN wget https://go.dev/dl/go1.24.2.linux-arm64.tar.gz && \
     tar -C /usr/local -xzf go1.24.2.linux-arm64.tar.gz && \
     rm go1.24.2.linux-arm64.tar.gz
 
 ENV PATH="/usr/local/go/bin:${PATH}"
+
+
+# Get Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Check cargo is visible
+RUN cargo --help
+
+WORKDIR /usr/local/
+ADD sample sample
+RUN cd sample && cargo fetch
 
 ENTRYPOINT ["/bin/bash"]
