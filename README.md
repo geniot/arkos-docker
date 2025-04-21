@@ -13,7 +13,7 @@ root@920e9eb0a553:/work# # Do stuff here
 ```
 For my Go/Rust projects:
 ```bash
-docker run -d --name go-aarch64 -c 1024 -it --volume=/home/vitaly/GolandProjects/:/work/ --workdir=/work/ rust-aarch64
+docker run -d --name go-aarch64 -c 1024 -it --volume=/home/vitaly/GolandProjects/:/work/ --workdir=/work/ go-aarch64
 docker run -d --name rust-aarch64 -c 1024 -it --volume=/home/vitaly/RustroverProjects/:/work/ --workdir=/work/ rust-aarch64
 ```
 
